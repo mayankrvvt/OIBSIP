@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PieGo - Realtime Pizza App</title>
+
+  <!-- Google Fonts: Lato & Playfair Display for Italian Feel -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS v3+ CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind Custom Config for Italian Colors -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            italianGreen: '#009246',
+            italianRed: '#CE2B37',
+            italianWhite: '#ffffff',
+          },
+          fontFamily: {
+            heading: ['"Playfair Display"', 'serif'],
+            body: ['Lato', 'sans-serif'],
+          },
+          animation: {
+            fadeIn: 'fadeIn 1.5s ease-in-out both',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: 0, transform: 'translateY(-20px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' },
+            },
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+    href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+
+<body class="bg-amber-50 text-gray-800 font-body">
+
+  <!-- Italian Flag Stripe at Top -->
+  <div class="w-full h-2 bg-gradient-to-r from-italianGreen via-white to-italianRed"></div>
+
+  <!-- Navbar -->
+  <nav class="container mx-auto flex items-center justify-between py-4 animate-fadeIn">
+    <div class="flex items-center space-x-2">
+      <a href="/" class="flex items-center space-x-2">
+        <img src="/img/logo.png" alt="logo" class="h-10" />
+        <span class="text-3xl font-heading text-italianRed tracking-wide">PieGo</span>
+      </a>
+    </div>
+
+    <div>
+      <ul class="flex items-center font-semibold">
+        <li class="ml-6"><a href="/" class="hover:text-italianRed transition duration-300">Menu</a></li>
+        <% if(user) { %>
+        <li class="ml-6">
+          <form id="logout" action="/logout" method="POST">
+            <a onclick="document.getElementById('logout').submit()" href="#" class="hover:text-italianRed transition duration-300">Logout</a>
+          </form>
+        </li>
+        <% } else { %>
+        <li class="ml-6"><a href="/register" class="hover:text-italianRed transition duration-300">Register</a></li>
+        <li class="ml-6"><a href="/login" class="hover:text-italianRed transition duration-300">Login</a></li>
+        <% } %>
+        <li class="ml-6">
+          <a href="/cart" class="inline-block px-4 py-2 rounded-full flex items-center bg-italianRed text-white hover:bg-red-700 transition duration-300">
+            <span id="cartCounter" class="font-bold pr-2"><%= session.cart ? session.cart.totalQty : '' %></span>
+            <img src="/img/cart.png" alt="Cart" class="h-5" />
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <main class="animate-fadeIn">
+    <%- body %>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-8 text-center text-sm text-gray-500 py-4 animate-fadeIn">
+    &copy; <%= new Date().getFullYear() %> PieGo. All rights reserved.
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+
+</html>
